@@ -1,8 +1,5 @@
 var gulp = require('gulp'),
   config = require('./build.config.json');
-// Production Handling
-// Description: Use 'production' variable with 'gulpif'
-// Toggle minifing and optimization for assets
 var production;
 var clean = require('gulp-clean');
 var concat = require('gulp-concat');
@@ -11,12 +8,13 @@ var rename = require('gulp-rename');
 var sass = require('gulp-sass');
 var cssmin = require('gulp-cssmin');
 var shell = require('gulp-shell');
-var browser-sync = require('browser-sync');
+var browserSync = require('browser-sync');
 var watch = require('gulp-watch');
 var bump = require('gulp-bump');
 var filter = require('gulp-filter');
 var git = require('gulp-git');
 var tagversion = require('gulp-tag-version');
+config      = require('./build.config.json');
 
 // Task: Clean:before
 // Description: Removing assets files before running other tasks
@@ -80,13 +78,13 @@ gulp.task('sass', function () {
 
 // Task: patternlab
 // Description: Build static Pattern Lab files via PHP script
-gulp.task('patternlab', function () {
-  return gulp.src('', {read: false})
-    .pipe(shell([
-      'php core/builder.php -gpn'
-    ]))
-    .pipe(browserSync.reload({stream:true}));
-});
+// gulp.task('patternlab', function () {
+//   return gulp.src('', {read: false})
+//     .pipe(shell([
+//       'php core/builder.php -gpn'
+//     ]))
+//     .pipe(browserSync.reload({stream:true}));
+// });
 
 // Task: styleguide
 // Description: Copy Styleguide-Folder from core/ to public
@@ -147,7 +145,6 @@ gulp.task('default', ['clean:before'], function () {
   production = false;
 
   gulp.start(
-    'patternlab',
     'styleguide',
     'fonts',
     'sass',
